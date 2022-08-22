@@ -30,7 +30,7 @@ function trash()
 end
 
 function reconnect()
-    while getBot().state ~= 5 then
+    while getBot().state ~= 5 do
         sleep(10000)
     end
 end
