@@ -14,7 +14,29 @@ function joinDoor(world, doorid)
     sendPacket(3,"action|join_request\nname|"..world:upper().."|"..doorid:upper())
 end
 
+function trashIt(idTrash)
+    sendPacket(2,"action|trash\n|itemID|"..idTrash)
+    sleep(500)
+    sendPacket(2,"action|dialog_return\ndialog_name|trash_item\nitemID|"..idTrash.."|\ncount|"..findItem(idTrash))
+    sleep(500)
+end
+
+function trash()
+    for j, idTrash in pairs(trashId) do
+        if findItem(idTrash) > 0 then
+            trashIt(idTrash)
+        end
+    end
+end
+
+function reconnect()
+    while getBot().state ~= 5 then
+        sleep(10000)
+    end
+end
+
 function cekWD()
+    reconnect()
     while getTile(botX(), botY()).fg == 6 do
         if getBot().world == worldNow:upper() then
             joinDoor(worldNow, doorID)
@@ -108,6 +130,7 @@ end
 
 function startFarm()
     cekWD()
+    trash()
     harvest()
     breaks()
     plant()
@@ -117,11 +140,13 @@ repeat
     for _, list in pairs(worldList) do
         worldNow = list:upper()
         while getBot().world ~= worldNow do
+            reconnect()
             join(worldNow)
             sleep(delayJoin)
         end
         while checkReady() > 0 do
             startFarm()
+            reconnect()
         end
     end
 until (loopFarm == false)
