@@ -1,3 +1,43 @@
+blockID         = 5666
+seedID          = blockID + 1
+hitCount        = 4
+delayHarvest    = 150
+delayPlant      = 150
+delayPlace      = 150
+delayBreak      = 200
+delayJoin       = 5000
+posX            = 0
+posY            = 1
+
+worldList       = {"ARLGQ"}
+doorID          = "COKANE"
+
+worldSavePack   = "APDNIH13"
+doorIdPack      = "COKANE"
+posPack         = 20
+
+worldSaveSeed   = "APDNIH13"
+doorIdSeed      = "COKANE"
+posSeed         = 16
+
+loopFarm        = true
+
+trashId = {
+    5018, -- Riding Chicken
+    5028, -- Earth Essence
+    5032, -- Fissure
+    5034, -- Waterfall
+    5036, -- Hidden Door
+    5038, -- Anemone
+    5040, -- Aurora
+    5042, -- Obsidian
+    5044, -- Lava Lamp
+    7162, -- Hour Glass
+    7164, -- Red House Entrance
+    8846, -- Lace A-Line Dress
+    8850  -- Blue and Black Tuxedo
+}
+
 function botX()
     return math.floor(getBot().x/32)
 end
@@ -114,6 +154,7 @@ function breaks()
     collectSet(true, 2)
     while findItem(blockID) > 0 do
         if botX() == posX and botY() == posY then
+            cekWD()
             place(blockID, 0, -1)
             sleep(delayPlace)
             for i = 1, hitCount do
